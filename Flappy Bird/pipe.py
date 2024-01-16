@@ -1,10 +1,10 @@
-import pygame
 import random
 from assets import load_assets
-from settings import SCREEN_WIDTH, SCREEN_HEIGHT, DIFFICULTY
+from settings import SCREEN_WIDTH, DIFFICULTY
+
 
 class Pipe:
-    def __init__(self):
+    def __init__(self, x_pos):
         # Load assets
         assets = load_assets()
         # Load the pipe images
@@ -12,15 +12,15 @@ class Pipe:
         self.bottom_pipe_image = assets["pipe_down"]
 
         # Set the initial position and dimensions of the pipes
-        self.x_pos = SCREEN_WIDTH * 1 / 2  # Start at 1/2 of the screen
+        self.x_pos = x_pos  # Start at 1/2 of the screen
         self.height = random.randint(200, 380)  # Random height for the gap between pipes
         self.gap = 175  # Gap between top and bottom pipe
-
+        self.passed = False
         # Set the rect for collision detection
         self.top_rect = self.top_pipe_image.get_rect(midbottom=(self.x_pos, self.height - self.gap / 2))
         self.bottom_rect = self.bottom_pipe_image.get_rect(midtop=(self.x_pos, self.height + self.gap / 2))
 
-        self.movement_speed = DIFFICULTY# Speed at which the pipes move
+        self.movement_speed = DIFFICULTY  # Speed at which the pipes move
 
     def update(self):
         # Move the pipes
@@ -35,10 +35,10 @@ class Pipe:
 
     def collide(self, bird_rect):
         # Check for collision with the bird
-        if(self.top_rect.colliderect(bird_rect) or self.bottom_rect.colliderect(bird_rect)):
-            return True    
+        if (self.top_rect.colliderect(bird_rect) or self.bottom_rect.colliderect(bird_rect)):
+            return True
         return False
-        
+
     def check_off_screen(self):
         if(self.x_pos <= -50):
             return True

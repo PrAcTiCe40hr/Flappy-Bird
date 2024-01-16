@@ -1,8 +1,9 @@
 import pygame
 from settings import SCREEN_WIDTH  # Assuming you have this constant defined
 
+
 class ScoreCounter:
-    def __init__(self, asset_path="Flappy Bird/assets/sprites/{}.png", position=(SCREEN_WIDTH // 2, 50)):
+    def __init__(self, asset_path="assets/sprites/{}.png", position=(SCREEN_WIDTH // 2, 50)):
         self.score = 0
         self.position = position
         self.digit_images = [pygame.image.load(asset_path.format(i)) for i in range(10)]
@@ -14,7 +15,7 @@ class ScoreCounter:
     def reset(self):
         """ Resets the score to zero. """
         self.score = 0
-    
+
     def draw(self, screen):
         """ Draws the score on the screen using loaded assets. """
         score_str = str(self.score)
