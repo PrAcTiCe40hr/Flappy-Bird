@@ -2,12 +2,14 @@
 import pygame
 from settings import SCREEN_WIDTH, SCREEN_HEIGHT
 from bird import Bird
+from red_bird import RedBird
+from blue_bird import BlueBird
 from assets import load_assets
 from game_functions import check_collision
 from pipe import Pipe
 from score_counter import ScoreCounter
 from historic_score import HistoryScore
-
+from button import Button
 
 def run_game():
     pygame.init()
@@ -24,6 +26,9 @@ def run_game():
     assets = load_assets()
     score_counter = ScoreCounter()
     history_score = HistoryScore()
+    buttons = create_buttons()
+    bird_color = 'yellow'  # Default color
+
     bird = Bird()
     pipes = []
     for i in range(5):
@@ -38,15 +43,25 @@ def run_game():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            for button in buttons:
+                if button.is_clicked(event) and not game_active:
+                    bird_color = button.action  # Set bird color based on button clicked
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and not game_end and not game_active:
                     game_active = True  # Start the game when space key is pressed
+                    if bird_color == 'red':
+                        bird = RedBird()
+                    elif bird_color == 'blue':
+                        bird = BlueBird()
+                    else:
+                        bird = Bird()  # Default yellow bird     
                     pipes = []
                     score_counter.reset()
                     bird.initiate()
             if event.type == pygame.KEYDOWN and game_active and not game_end:
                 if event.key == pygame.K_SPACE:
                     bird.jump()
+
 
         # Load start screen and end screen depends on the status of the game
         screen.blit(assets["bg_surface"], (bg_x_pos, 0))
@@ -56,7 +71,15 @@ def run_game():
         screen.blit(assets["floor_surface"], (base_x_pos_2, SCREEN_HEIGHT - 300))
         screen.blit(assets["floor_surface"], (base_x_pos_3, SCREEN_HEIGHT - 300))
         bird.draw(screen)
-
+            
+        height_of_elements_above = 600
+        rectangle_height = SCREEN_HEIGHT - height_of_elements_above
+        # Draw the white rectangle
+        pygame.draw.rect(screen, (109, 190, 200), (0, height_of_elements_above, SCREEN_WIDTH, rectangle_height))
+        
+        for button in buttons:
+            button.draw(screen)
+             
         if not game_active and not game_end:
             # Display assets["message"]
             screen.blit(assets["message"], (200, 150))
@@ -104,7 +127,7 @@ def run_game():
             height_of_elements_above = 600
             rectangle_height = SCREEN_HEIGHT - height_of_elements_above
             # Draw the white rectangle
-            pygame.draw.rect(screen, (0, 0, 0), (0, height_of_elements_above, SCREEN_WIDTH, rectangle_height))
+            pygame.draw.rect(screen, (109, 190, 200), (0, height_of_elements_above, SCREEN_WIDTH, rectangle_height))
 
             # Immediate reset if off-screen
             if bg_x_pos <= -288:
@@ -139,6 +162,20 @@ def run_game():
         pygame.display.update()
         from settings import FPS
         clock.tick(FPS)
+
+def create_buttons():
+        buttons = []
+        bird_images = {
+            'red': pygame.image.load('assets/sprites/redbird-midflap.png').convert_alpha(),
+            'blue': pygame.image.load('assets/sprites/bluebird-midflap.png').convert_alpha(),
+            'yellow': pygame.image.load('assets/sprites/yellowbird-midflap.png').convert_alpha()
+        }
+        x, y = 50, SCREEN_HEIGHT - 100  # Adjust position as needed
+        for color, img in bird_images.items():
+            button = Button(img, x, y, action=color)
+            buttons.append(button)
+            x += 100  # Adjust spacing as needed
+        return buttons    
 
 
 if __name__ == '__main__':

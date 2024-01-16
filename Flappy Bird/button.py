@@ -1,6 +1,7 @@
 # Button Class
 
 import pygame
+from settings import SCREEN_HEIGHT
 
 
 class Button:
@@ -12,7 +13,7 @@ class Button:
         :param y: The y-coordinate of the top-left corner of the button.
         :param action: The action to be performed when the button is clicked.
         """
-        self.image = image
+        self.image = pygame.transform.rotozoom(image, 0, 2)
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.action = action
@@ -33,3 +34,4 @@ class Button:
         if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos):
             return True
         return False
+    
