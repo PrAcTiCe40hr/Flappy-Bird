@@ -1,4 +1,3 @@
-# settings.py
 # Game settings and constants
 
 # Screen dimensions

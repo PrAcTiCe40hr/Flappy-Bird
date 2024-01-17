@@ -1,4 +1,3 @@
-# bird.py
 import pygame
 from settings import GRAVITY, SCREEN_HEIGHT
 

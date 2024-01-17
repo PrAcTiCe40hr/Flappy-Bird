@@ -1,4 +1,3 @@
-# assets.py
 import pygame
 
 

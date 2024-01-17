@@ -1,4 +1,3 @@
-# main.py
 import pygame
 from settings import SCREEN_WIDTH, SCREEN_HEIGHT
 from bird import Bird
