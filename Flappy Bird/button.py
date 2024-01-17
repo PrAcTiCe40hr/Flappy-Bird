@@ -2,6 +2,21 @@ import pygame
 
 
 class Button:
+    """
+    A class for creating and managing interactive button elements in a Pygame
+    application.
+
+    This class provides the functionality to create a button with a specified
+    image and position. It allows for the specification of an action that can
+    be triggered when the button is clicked.
+
+    Attributes:
+        image (pygame.Surface): The image displayed on the button.
+        rect (pygame.Rect): The rectangular area of the button, 
+        used for positioning and collision detection.
+        action (function, optional): The action to be executed when
+        the button is clicked.
+    """
     def __init__(self, image, x, y, action=None):
         """
         Initializes a new button.
