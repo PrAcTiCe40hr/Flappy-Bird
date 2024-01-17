@@ -8,7 +8,7 @@ def check_collision(bird):
     Args:
         bird: The Bird object to check for collisions.
 
-    This function determines if the bird has collided with the ground or 
+    This function determinzes if the bird has collided with the ground or 
     has gone out of bounds (off the screen).
     It returns True if a collision has occurred, otherwise False.
     """
