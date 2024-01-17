@@ -4,6 +4,17 @@ from button import Button
 
 
 def create_buttons():
+    """
+    Create and return a list of button objects for the game.
+
+    This function initializes button objects, each associated with different
+    bird images (like red, blue, yellow). It sets the position and properties
+    for these buttons, which are likely used in the game's user interface,
+    such as a menu or selection screen.
+
+    Returns:
+        list: A list of Button objects configured with different bird images and properties.
+    """
     buttons = []
     bird_images = {
         'red': pygame.image.load(

@@ -12,6 +12,15 @@ from render_button import create_buttons
 
 
 def run_game():
+    """
+    Run the main game loop.
+
+    This function initializes the game environment using Pygame, sets up game
+    elements like the bird, pipes, score counter, etc., and enters the main
+    game loop. Within the loop, it handles events, updates game states,
+    checks for collisions, and updates the display. It continues until the
+    game is exited.
+    """
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
