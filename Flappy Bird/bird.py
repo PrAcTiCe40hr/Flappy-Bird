@@ -13,14 +13,16 @@ class Bird:
     handling the bird's movement and interaction with the game environment.
 
     Attributes:
-        images (dict): A dictionary containing the loaded images for each flap state of the bird.
+        images (dict): A dictionary containing the loaded images for each
+        flap state of the bird.
     """
     def __init__(self):
         """
         Initialize the Bird object.
 
-        Loads and stores the bird's sprite images for different flap states using the Pygame library.
-        Additional attributes and methods are likely defined for handling the bird's behavior.
+        Loads and stores the bird's sprite images for different flap states
+        using the Pygame library.
+
         """
         self.images = {
             "midflap": pygame.image.load(

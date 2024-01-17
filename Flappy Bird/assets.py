@@ -14,7 +14,8 @@ def load_assets():
     transparency.
 
     Returns:
-        dict: A dictionary containing all the loaded game assets, each referenced by a descriptive key.
+        dict: A dictionary containing all the loaded game assets,
+        each referenced by a descriptive key.
     """
     assets = {}
     assets["bg_surface"] = pygame.image.load(
