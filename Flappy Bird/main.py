@@ -9,7 +9,8 @@ from game_functions import check_collision
 from pipe import Pipe
 from score_counter import ScoreCounter
 from historic_score import HistoryScore
-from button import Button
+from render_button import create_buttons
+
 
 def run_game():
     pygame.init()
@@ -35,58 +36,64 @@ def run_game():
         pipe = Pipe(SCREEN_WIDTH * 2 / 3 + i * 150)
         pipes.append(pipe)
 
-    game_active = False
-    game_end = False
-    
+    g_a = False
+    g_e = False
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
             for button in buttons:
-                if button.is_clicked(event) and not game_active:
-                    bird_color = button.action  # Set bird color based on button clicked
+                if button.is_clicked(event) and not g_a:
+                    # Set bird color based on button clicked
+                    bird_color = button.action
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not game_end and not game_active:
-                    game_active = True  # Start the game when space key is pressed
+                if event.key == pygame.K_SPACE and not g_e and not g_a:
+                    # Start the game when space key is pressed
+                    g_a = True
                     if bird_color == 'red':
                         bird = RedBird()
                     elif bird_color == 'blue':
                         bird = BlueBird()
                     else:
-                        bird = Bird()  # Default yellow bird     
+                        bird = Bird()  # Default yellow bird
                     pipes = []
                     score_counter.reset()
                     bird.initiate()
-            if event.type == pygame.KEYDOWN and game_active and not game_end:
+            if event.type == pygame.KEYDOWN and g_a and not g_e:
                 if event.key == pygame.K_SPACE:
                     bird.jump()
-
 
         # Load start screen and end screen depends on the status of the game
         screen.blit(assets["bg_surface"], (bg_x_pos, 0))
         screen.blit(assets["bg_surface"], (bg_x_pos_2, 0))
         screen.blit(assets["bg_surface"], (bg_x_pos_3, 0))
-        screen.blit(assets["floor_surface"], (base_x_pos, SCREEN_HEIGHT - 300))
-        screen.blit(assets["floor_surface"], (base_x_pos_2, SCREEN_HEIGHT - 300))
-        screen.blit(assets["floor_surface"], (base_x_pos_3, SCREEN_HEIGHT - 300))
+        screen.blit(assets["floor_surface"], (base_x_pos,
+                                              SCREEN_HEIGHT - 300))
+        screen.blit(assets["floor_surface"], (base_x_pos_2,
+                                              SCREEN_HEIGHT - 300))
+        screen.blit(assets["floor_surface"], (base_x_pos_3,
+                                              SCREEN_HEIGHT - 300))
         bird.draw(screen)
-            
+
         height_of_elements_above = 600
         rectangle_height = SCREEN_HEIGHT - height_of_elements_above
         # Draw the white rectangle
-        pygame.draw.rect(screen, (109, 190, 200), (0, height_of_elements_above, SCREEN_WIDTH, rectangle_height))
-        
+        pygame.draw.rect(screen, (109, 190, 200), (0, height_of_elements_above,
+                                                   SCREEN_WIDTH,
+                                                   rectangle_height))
+
         for button in buttons:
             button.draw(screen)
-             
-        if not game_active and not game_end:
+
+        if not g_a and not g_e:
             # Display assets["message"]
             screen.blit(assets["message"], (200, 150))
 
-        if game_active:
+        if g_a:
             bird.update()
-            game_end = check_collision(bird)
+            g_e = check_collision(bird)
 
             # Scrolling both sets of background and base
             screen.blit(assets["bg_surface"], (bg_x_pos, 0))
@@ -100,26 +107,29 @@ def run_game():
             if pipes:  # Check if the pipes list is not empty
                 pipes.append(Pipe(pipes[-1].x_pos + 150))
             else:
-                # Code to handle the situation when there are no pipes, e.g., create the first pipe
-                pipes.append(Pipe(SCREEN_WIDTH * 2 / 3))  # Assuming initial_pipe_x is the starting x-coordinate for the first pipe
+                # Code to handle the situation when there are no pipes
+                pipes.append(Pipe(SCREEN_WIDTH * 2 / 3))
 
             # Update and Draw Pipes
             for pipe in pipes:
-                pipe.update()  # Update each pipe' s position
+                pipe.update()  # Update each pipe's position
                 pipe.draw(screen)  # Draw each pipe to the screen
                 if 100 > pipe.x_pos and not pipe.passed:
-                    score_counter.increment()  # Assuming a method like this exists
+                    score_counter.increment()
                     pipe.passed = True
 
             # Collision Detection
             for pipe in pipes:
                 if pipe.collide(bird.rect):
-                    game_end = True
+                    g_e = True
 
-            pipes = [pipe for pipe in pipes if not pipe.check_off_screen()]                       
-            screen.blit(assets["floor_surface"], (base_x_pos, SCREEN_HEIGHT - 300))
-            screen.blit(assets["floor_surface"], (base_x_pos_2, SCREEN_HEIGHT - 300))
-            screen.blit(assets["floor_surface"], (base_x_pos_3, SCREEN_HEIGHT - 300))
+            pipes = [pipe for pipe in pipes if not pipe.check_off_screen()]
+            screen.blit(assets["floor_surface"], (base_x_pos,
+                                                  SCREEN_HEIGHT - 300))
+            screen.blit(assets["floor_surface"], (base_x_pos_2,
+                                                  SCREEN_HEIGHT - 300))
+            screen.blit(assets["floor_surface"], (base_x_pos_3,
+                                                  SCREEN_HEIGHT - 300))
             base_x_pos -= 1
             base_x_pos_2 -= 1
             base_x_pos_3 -= 1
@@ -127,7 +137,9 @@ def run_game():
             height_of_elements_above = 600
             rectangle_height = SCREEN_HEIGHT - height_of_elements_above
             # Draw the white rectangle
-            pygame.draw.rect(screen, (109, 190, 200), (0, height_of_elements_above, SCREEN_WIDTH, rectangle_height))
+            pygame.draw.rect(screen, (109, 190, 200), (
+                0, height_of_elements_above, SCREEN_WIDTH, rectangle_height)
+            )
 
             # Immediate reset if off-screen
             if bg_x_pos <= -288:
@@ -148,34 +160,20 @@ def run_game():
             # Render the score counter
             score_counter.draw(screen)
 
-        if game_end:
+        if g_e:
             history_score.add_score(score_counter.score)
             screen.blit(assets["game_over"], (200, 150))
             pygame.display.update()
             pygame.time.wait(2000)
-            game_end = False
-            game_active = False
+            g_e = False
+            g_a = False
             screen.blit(assets["message"], (200, 150))
 
         history_score.draw_highest_score(screen)
-        
+
         pygame.display.update()
         from settings import FPS
         clock.tick(FPS)
-
-def create_buttons():
-        buttons = []
-        bird_images = {
-            'red': pygame.image.load('assets/sprites/redbird-midflap.png').convert_alpha(),
-            'blue': pygame.image.load('assets/sprites/bluebird-midflap.png').convert_alpha(),
-            'yellow': pygame.image.load('assets/sprites/yellowbird-midflap.png').convert_alpha()
-        }
-        x, y = 50, SCREEN_HEIGHT - 100  # Adjust position as needed
-        for color, img in bird_images.items():
-            button = Button(img, x, y, action=color)
-            buttons.append(button)
-            x += 100  # Adjust spacing as needed
-        return buttons    
 
 
 if __name__ == '__main__':

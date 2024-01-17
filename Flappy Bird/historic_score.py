@@ -4,12 +4,15 @@ from settings import SCREEN_WIDTH
 
 
 class HistoryScore:
-    def __init__(self, asset_path="assets/sprites/{}.png", position=(SCREEN_WIDTH // 2, 750), file_path='highest_score.txt'):
+    def __init__(self, asset_path="assets/sprites/{}.png",
+                 position=(SCREEN_WIDTH // 2, 750),
+                 file_path='highest_score.txt'):
         self.file_path = file_path
         self.highest_score = self.load_highest_score()
         self.scores = []
         self.position = position
-        self.digit_images = [pygame.image.load(asset_path.format(i)) for i in range(10)]
+        self.digit_images = [pygame.image.load(asset_path.format(i))
+                             for i in range(10)]
 
     def add_score(self, score):
         if score > self.highest_score:
@@ -30,9 +33,10 @@ class HistoryScore:
         return 0
 
     def draw_highest_score(self, screen):
-        highest_score = self.get_highest_score()      
+        highest_score = self.get_highest_score()
         score_str = str(highest_score)
-        total_width = sum(self.digit_images[int(digit)].get_width() for digit in score_str)
+        total_width = sum(self.digit_images[int(digit)].get_width()
+                          for digit in score_str)
         start_x = self.position[0] - total_width // 2
 
         x_offset = start_x

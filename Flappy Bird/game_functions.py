@@ -1,4 +1,3 @@
-# game_functions.py
 from settings import SCREEN_HEIGHT
 
 

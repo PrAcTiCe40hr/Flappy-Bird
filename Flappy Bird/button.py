@@ -1,7 +1,4 @@
-# Button Class
-
 import pygame
-from settings import SCREEN_HEIGHT
 
 
 class Button:
@@ -31,7 +28,7 @@ class Button:
         :param event: The event to check.
         :return: True if the button is clicked, False otherwise.
         """
-        if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos):
+        if event.type == pygame.MOUSEBUTTONDOWN and (
+                self.rect.collidepoint(event.pos)):
             return True
         return False
-    
