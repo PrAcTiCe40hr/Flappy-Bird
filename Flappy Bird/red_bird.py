@@ -8,12 +8,12 @@ class RedBird(Bird):
         self.images = {
             "midflap": pygame.image.load(
                 "assets/sprites/redbird-midflap.png"
-                ).convert_alpha(),
+            ).convert_alpha(),
             "upflap": pygame.image.load(
                 "assets/sprites/redbird-upflap.png"
-                ).convert_alpha(),
+            ).convert_alpha(),
             "downflap": pygame.image.load(
                 "assets/sprites/redbird-downflap.png"
-                ).convert_alpha()
+            ).convert_alpha()
         }
         self.current_image = self.images["midflap"]

@@ -20,12 +20,12 @@ class Pipe:
         # Set the rect for collision detection
         self.top_rect = self.top_pipe_image.get_rect(
             midbottom=(self.x_pos, self.height - self.gap / 2)
-            )
+        )
         self.bottom_rect = self.bottom_pipe_image.get_rect(
             midtop=(self.x_pos,
                     self.height
                     + self.gap / 2)
-            )
+        )
 
         self.movement_speed = DIFFICULTY  # Speed at which the pipes move
 

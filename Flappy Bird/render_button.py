@@ -8,13 +8,13 @@ def create_buttons():
     bird_images = {
         'red': pygame.image.load(
             'assets/sprites/redbird-midflap.png'
-            ).convert_alpha(),
+        ).convert_alpha(),
         'blue': pygame.image.load(
             'assets/sprites/bluebird-midflap.png'
-            ).convert_alpha(),
+        ).convert_alpha(),
         'yellow': pygame.image.load(
             'assets/sprites/yellowbird-midflap.png'
-            ).convert_alpha()
+        ).convert_alpha()
     }
     x, y = 160, SCREEN_HEIGHT - 125  # Adjust position as needed
     for color, img in bird_images.items():

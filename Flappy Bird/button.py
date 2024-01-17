@@ -12,11 +12,12 @@ class Button:
 
     Attributes:
         image (pygame.Surface): The image displayed on the button.
-        rect (pygame.Rect): The rectangular area of the button, 
+        rect (pygame.Rect): The rectangular area of the button,
         used for positioning and collision detection.
         action (function, optional): The action to be executed when
         the button is clicked.
     """
+
     def __init__(self, image, x, y, action=None):
         """
         Initializes a new button.
